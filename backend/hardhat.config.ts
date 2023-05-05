@@ -5,11 +5,12 @@ import "@nomiclabs/hardhat-etherscan"
 import "@nomicfoundation/hardhat-chai-matchers"
 import "@nomicfoundation/hardhat-network-helpers"
 import "@openzeppelin/hardhat-upgrades"
+
+
 // import "hardhat-gas-reporter"
 
 import dotenv from "dotenv"
 dotenv.config()
-
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -17,6 +18,7 @@ const config: HardhatUserConfig = {
       { version: "0.8.17" },
       { version: "0.8.10" },
       { version: "0.8.7" },
+      { version: "0.4.18" },
     ],
   },
 
@@ -40,9 +42,10 @@ const config: HardhatUserConfig = {
       chainId: 1337, // We set 1337 to make interacting with MetaMask simpler
 
       forking: {
-        url: process.env.API_QUIK_TEST_BSC?? "Ingresar URL correcta",
-        blockNumber: 16520000,
-        enabled:false
+        // url: process.env.API_QUIK_TEST_BSC?? "Ingresar URL correcta",
+        url: process.env.API_ALCHEMY_FORK_MAINET?? "Ingresar URL correcta",
+        blockNumber: 17184000,
+        enabled:true
       },
 
       accounts: {
@@ -51,6 +54,20 @@ const config: HardhatUserConfig = {
         initialIndex: 0,
         count: 10,
         accountsBalance:"15000000000000000000000",
+        passphrase: "",
+      },
+    },
+
+    Ganache: {
+      //chainId: 1337, // We set 1337 to make interacting with MetaMask simpler 5777
+
+      url: process.env.API_LOCAL_GANACHE,
+      
+      accounts: {
+        mnemonic: process.env.SEED,
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 10,
         passphrase: "",
       },
     },

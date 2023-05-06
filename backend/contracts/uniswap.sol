@@ -11,26 +11,87 @@ interface iWETH {
 
 contract uniswap {
 
+    //Using Interface
     ISwapRouter public immutable router;
+    iWETH public cWETH;
+    
+    //Address Contracts
     address public constant WDAI=0x6B175474E89094C44Da98b954EedeAC495271d0F;
     address public constant WETH=0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-    uint24 public constant feeTier= 3000;
-    
+    address public constant addressRouter=0xE592427A0AEce92De3Edee1F18E0157C05861564;
 
-    constructor(address _router) {
-        router = ISwapRouter(_router);  
+    //State Variables 
+    address payable owner; //Contract's owner
+    uint256 public amountGoal;
+    uint256 public amountApprove;
+    uint256 public pool;
+    string public title;
+    State public state;
+    uint24 public constant feeTier= 3000;
+    //uint256 public currentBalancePool;
+
+    //mapping
+    mapping (address => uint) public client;
+
+    enum State {
+             RisingPool,
+             AchieveGoal
     }
 
-    function swapETHtoDAI(uint256 amountIn) public returns (uint256) {
+    constructor(string memory _title, address _owner, uint256 _amountGoal, uint256 _amountApprove) {
+        
+
+        title=_title;
+        owner=payable(_owner);
+        amountGoal=_amountGoal;
+        amountApprove=_amountApprove;
+
+        router = ISwapRouter(addressRouter);  
+        cWETH = iWETH(WETH);
+        state = State.RisingPool;
+        approveWETH(amountApprove);
+
+    }
+
+    function pay() public payable {
+        require(msg.value>0, "Insufficient tokens");
+        pool = pool + msg.value;
+        checkIfAchieveGoal();
+    }
+
+    receive() external payable {
+        pool = pool + msg.value;
+        checkIfAchieveGoal();
+    }
+
+
+    function checkIfAchieveGoal() internal {
+        if (pool>amountGoal) {
+            state = State.AchieveGoal;
+            swapETHtoDAI();
+        } 
+    }
+
+
+    function approveWETH(uint _amountApprove)  public {
+        TransferHelper.safeApprove(WETH, address(router), _amountApprove);
+    }
+
+
+
+    function swapETHtoDAI() public payable returns (uint256) {
+        
+        require(pool>=address(this).balance && pool>0, "Insufficient funds");
+        require(state ==State.AchieveGoal,"Not Achieve Goal");
         //debe haber una advertencia si la transaccion ha sido revertida por no aprobar la transferencia de WETH por el contrato
-        require(amountIn>0, "deposit coul be greatter than cero");
+
+        
+        cWETH.deposit{value:pool}();
+        // cWETH.approve(address(this),msg.value);
+
+        // TransferHelper.safeTransferFrom(WETH, msg.sender, address(this), pool);
 
 
-
-
-        TransferHelper.safeTransferFrom(WETH, msg.sender, address(this), amountIn);
-
-        TransferHelper.safeApprove(WETH, address(router), amountIn);
 
         uint256 minOut= 0;
         uint160 priceLimit=0;
@@ -39,15 +100,15 @@ contract uniswap {
                                                         tokenIn:WETH,
                                                         tokenOut:WDAI,
                                                         fee:feeTier,
-                                                        recipient:msg.sender,
+                                                        recipient:owner,
                                                         deadline:block.timestamp,
-                                                        amountIn:amountIn,
+                                                        amountIn:pool,
                                                         amountOutMinimum:minOut,
                                                         sqrtPriceLimitX96:priceLimit
                                                         });
 
         uint256 amountOut = router.exactInputSingle(params);
-        
+        pool=0;
         return amountOut;
         
     }

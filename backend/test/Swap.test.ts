@@ -59,7 +59,7 @@ describe("Swap Uniswap", ()=> {
             console.log("BalanceDAIbefore =>", await BalanceDAIbefore());            
 
             //reazizando Swap de WETH a DAI
-            const ReceiptSwap = await uniswap.swapETHtoDAI(ethers.utils.parseEther("0.5"))
+            const ReceiptSwap = await uniswap.swapETHtoDAI({value:ethers.utils.parseEther("0.5")})
             await ReceiptSwap.wait()
 
             
@@ -67,5 +67,34 @@ describe("Swap Uniswap", ()=> {
             console.log("BalanceDAIbefore =>", await BalanceDAIbefore());  
             
     });
+
+    // it("Desposit", async ()=>{
+    //      //Instanciando Contrato uniswap
+    //      const UniswapFactory = await ethers.getContractFactory('uniswap');
+    //      const uniswap = await UniswapFactory.attach(dataContract.addressContract.Ganache);
+    //      console.log('Address del contrato =>>',uniswap.address )
+  
+    //      //Instanciando Token WETH
+    //      const FWETH = await ethers.getContractFactory("TokenWETH")
+    //      const cWETH= FWETH.attach(addressWETH)
+
+    //      //Instanciando Token DAI
+    //      const FDAI = await ethers.getContractFactory("TokenDai")
+    //      const cDAI = FDAI.attach(addressDAI)
+
+    //      console.log(1);
+         
+    //      const balancePool = async() => ethers.utils.formatEther(await uniswap.pool())
+    //      console.log(2);
+    //     console.log("balance Pool Before => ", await balancePool());
+    //     console.log(3);
+    //     const receiptRecibir = await uniswap.recibir({value: ethers.utils.parseEther("1")})
+    //     console.log(4);
+    //     await receiptRecibir.wait()
+    //     console.log(5);
+    //     console.log("balance Pool After => ",await balancePool());
+
+
+    // })
 
   })

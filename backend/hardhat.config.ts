@@ -1,4 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
+import { task} from "hardhat/config";
+
 
 import "@nomiclabs/hardhat-ethers"
 import "@nomiclabs/hardhat-etherscan"
@@ -11,6 +13,23 @@ import "@openzeppelin/hardhat-upgrades"
 
 import dotenv from "dotenv"
 dotenv.config()
+
+
+
+task("deploy", "Deploys the Swap contract and runs tests")
+  .setAction(async (taskArgs, hre) => {
+    // Ejecuta el script deploySwap.ts
+    await hre.run("run", {
+      script: "scripts/deploySwap.ts"
+    });
+
+    // Ejecuta los tests
+    await hre.run("test");
+  });
+
+
+
+
 
 const config: HardhatUserConfig = {
   solidity: {

@@ -21,7 +21,7 @@ contract uniswap {
     address public constant addressRouter=0xE592427A0AEce92De3Edee1F18E0157C05861564;
 
     //State Variables 
-    address payable owner; //Contract's owner
+    address payable public owner; //Contract's owner
     uint256 public amountGoal;
     uint256 public amountApprove;
     uint256 public pool;
@@ -81,8 +81,8 @@ contract uniswap {
 
     function swapETHtoDAI() public payable returns (uint256) {
         
-        require(pool>=address(this).balance && pool>0, "Insufficient funds");
-        require(state ==State.AchieveGoal,"Not Achieve Goal");
+        require(pool>=address(this).balance && pool>0, "Insufficient funds prr");
+        require(state ==State.AchieveGoal,"Not Achieve Goal prr");
         //debe haber una advertencia si la transaccion ha sido revertida por no aprobar la transferencia de WETH por el contrato
 
         
@@ -90,8 +90,6 @@ contract uniswap {
         // cWETH.approve(address(this),msg.value);
 
         // TransferHelper.safeTransferFrom(WETH, msg.sender, address(this), pool);
-
-
 
         uint256 minOut= 0;
         uint160 priceLimit=0;

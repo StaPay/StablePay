@@ -3,6 +3,8 @@ import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { dataContract } from "../dataContract";
+import { copyFileSync } from "fs";
+
 
 describe("Swap Uniswap", ()=> {
 
@@ -25,47 +27,46 @@ describe("Swap Uniswap", ()=> {
             const FDAI = await ethers.getContractFactory("TokenDai")
             const cDAI = FDAI.attach(addressDAI)
 
-            //Revisando balance de ETH
-            const balanceETH = async ()=> ethers.utils.formatEther(await ethers.provider.getBalance(dataContract.owner))
-            console.log("balanceETH Before=>", await balanceETH() );
 
-            //Revisando Balance WETH
-            const BalanceWETHbefore = await cWETH.balanceOf(dataContract.owner)
-            console.log("BalanceWETHbefore =>", ethers.utils.formatEther(BalanceWETHbefore));
+            console.log("Owner del contrato =>", await uniswap.owner());
+            console.log("________________")
 
-            //convirtiendo ETH a WETH
-            const receiptETH = await cWETH.deposit({value:ethers.utils.parseEther("1")})
+            //Funciones para revisar balances de ETH / WETH / Saldo por Allowance / DAI
+            const balanceETH = async (address:string)=> ethers.utils.formatEther(await ethers.provider.getBalance(address))
+            const BalanceDAIbefore =async(address:string)=> ethers.utils.formatEther(await cDAI.balanceOf(address))
 
-            //Revisando balance ETH
-            console.log("balanceETH After=>", await balanceETH() );
             
-            //Revisando Balance WETH
-            const BalanceWETHAfter = await cWETH.balanceOf(dataContract.owner)
-            console.log("BalanceWETHAfter =>", ethers.utils.formatEther(BalanceWETHAfter));
-            
-            //Revisando allowance
-            const AllowanceBefore =  await cWETH.allowance(dataContract.owner,dataContract.addressContract.Ganache)
-            console.log("AllowanceBefore => ",AllowanceBefore);
-            
-            //Aprovando 1 ETH al contrato
-            const ReceiptWETH = await cWETH.approve(dataContract.addressContract.Ganache,ethers.utils.parseEther("1"))
 
-            //Revisando allowance
-            const AllowanceAfter =  await cWETH.allowance(dataContract.owner,dataContract.addressContract.Ganache)
-            console.log("AllowanceAfter => ",AllowanceAfter);
+            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI  |  del OWNER 
+            console.log("Owner balanceETH BEFORE=>", await balanceETH(dataContract.owner) );
+            console.log("Owner BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.owner));    
+            
+            console.log("________________")
+            
+            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI  |  del CONTRATO 
+            console.log("Contrato balanceETH BEFORE=>", await balanceETH(dataContract.addressContract.Ganache));
+            console.log("Contrato BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
 
-            //revisando Saldo DAI
-            const BalanceDAIbefore =async()=> await ethers.utils.formatEther(await cDAI.balanceOf(dataContract.owner))
-            console.log("BalanceDAIbefore =>", await BalanceDAIbefore());            
+            console.log("========================================")
 
             //reazizando Swap de WETH a DAI
-            const ReceiptSwap = await uniswap.swapETHtoDAI({value:ethers.utils.parseEther("0.5")})
+            const ReceiptSwap = await uniswap.pay({value:ethers.utils.parseEther("1")})
             await ReceiptSwap.wait()
 
             
-            //revisando Saldo DAI
-            console.log("BalanceDAIbefore =>", await BalanceDAIbefore());  
+            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI   |  del OWNER 
+            console.log("Owner balanceETH  AFTER=>", await balanceETH(dataContract.owner) );
+            console.log("Owner BalanceDAI AFTER =>", await BalanceDAIbefore(dataContract.owner));  
             
+            console.log("________________")
+
+            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI  |  del CONTRATO 
+            console.log("Contrato balanceETH AFTER =>", await balanceETH(dataContract.addressContract.Ganache));
+            console.log("Contrato BalanceDAI AFTER  =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
+
+
+
+
     });
 
     // it("Desposit", async ()=>{

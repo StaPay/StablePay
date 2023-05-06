@@ -1,16 +1,23 @@
 import { ethers } from 'hardhat'
 import fs from 'fs'
 import artifact from '../artifacts/contracts/uniswap.sol/uniswap.json'
+import { stringify } from 'querystring'
 
 async function deploy () {
+    
+    const signers = await ethers.getSigners()
+    const ETH_to_Wei =(eth:number)=> ethers.utils.parseEther(eth.toString())
+
     const UniswapFactory = await ethers.getContractFactory('uniswap');
-    const uniswap = await UniswapFactory.deploy("0xE592427A0AEce92De3Edee1F18E0157C05861564");
+    const uniswap = await UniswapFactory.deploy("Titulo Prueba", signers[0].address, ETH_to_Wei(10), ETH_to_Wei(50));
+
+    
     await uniswap.deployed()
     
     console.log('Address del contrato =>>',uniswap.address )
     
     
-    const signers = await ethers.getSigners()
+    
 
 
     const abi= JSON.parse(JSON.stringify(artifact.abi))
@@ -18,8 +25,10 @@ async function deploy () {
     let config = `export const dataContract = { 
        addressContract: {
        Ganache:${JSON.stringify(uniswap.address)}
-      },
-    
+       },
+       HashContract: {
+        Ganache:${JSON.stringify(uniswap.deployTransaction.hash)}
+       },
        owner:'${signers[0].address}',
     
        abi: ${JSON.stringify(abi)},

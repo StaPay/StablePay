@@ -1,20 +1,21 @@
 import { ethers } from 'hardhat'
 import fs from 'fs'
-import artifact from '../artifacts/contracts/uniswap.sol/uniswap.json'
-import { stringify } from 'querystring'
+import artifact from '../artifacts/contracts/SwapToStable.sol/SwapToStable.json'
+
 
 async function deploy () {
     
     const signers = await ethers.getSigners()
-    const ETH_to_Wei =(eth:number)=> ethers.utils.parseEther(eth.toString())
-
-    const UniswapFactory = await ethers.getContractFactory('uniswap');
-    const uniswap = await UniswapFactory.deploy("Titulo Prueba", signers[0].address, ETH_to_Wei(10), ETH_to_Wei(50));
-
+    const MATIC_to_Wei =(eth:number)=> ethers.utils.parseEther(eth.toString())
+    console.log(1);
     
-    await uniswap.deployed()
+    const SwapToStableFactory = await ethers.getContractFactory('SwapToStable');
+    const SwapToStable = await SwapToStableFactory.deploy("Titulo Prueba", signers[0].address, MATIC_to_Wei(0.001), MATIC_to_Wei(50));
+    console.log(2);
     
-    console.log('Address del contrato =>>',uniswap.address )
+    await SwapToStable.deployed()
+    
+    console.log('Address del contrato =>>',SwapToStable.address )
     
     
     
@@ -24,10 +25,10 @@ async function deploy () {
     
     let config = `export const dataContract = { 
        addressContract: {
-       Ganache:${JSON.stringify(uniswap.address)}
+       Ganache:${JSON.stringify(SwapToStable.address)}
        },
        HashContract: {
-        Ganache:${JSON.stringify(uniswap.deployTransaction.hash)}
+        Ganache:${JSON.stringify(SwapToStable.deployTransaction.hash)}
        },
        owner:'${signers[0].address}',
     

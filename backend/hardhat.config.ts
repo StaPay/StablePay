@@ -20,7 +20,7 @@ task("deploy", "Deploys the Swap contract and runs tests")
   .setAction(async (taskArgs, hre) => {
     // Ejecuta el script deploySwap.ts
     await hre.run("run", {
-      script: "scripts/deploySwap.ts"
+      script: "scripts/deploySwapToStable.ts"
     });
 
     // Ejecuta los tests
@@ -105,6 +105,17 @@ const config: HardhatUserConfig = {
       },
     },
 
+    Sepolia: {
+      url: process.env.API_ALCHEMY_SEPOLIA,
+      accounts: {
+        mnemonic: process.env.SEED,
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 10,
+        passphrase: "",
+      },
+    },
+
 
     ETH_Mainet: {
 
@@ -122,7 +133,7 @@ const config: HardhatUserConfig = {
 
     Mumbai: {
 
-      url: "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+      url: process.env.API_INFURA_MUMBAI,
 
       accounts: {
         mnemonic: process.env.SEED,
@@ -152,7 +163,7 @@ const config: HardhatUserConfig = {
   },
 
   etherscan : {
-    apiKey: process.env.API_ETHERSCAN
+    apiKey: process.env.API_POLYSCAN
   },
 
 

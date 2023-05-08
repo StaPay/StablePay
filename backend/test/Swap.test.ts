@@ -1,101 +1,140 @@
-import { time, loadFixture, setBalance } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
-import { expect } from "chai";
-import { ethers } from "hardhat";
-import { dataContract } from "../dataContract";
-import { copyFileSync } from "fs";
+// import { time, loadFixture, setBalance } from "@nomicfoundation/hardhat-network-helpers";
+// import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
+// import { expect } from "chai";
+// import { ethers } from "hardhat";
+// import { dataContract } from "../dataContract";
+// import { copyFileSync } from "fs";
 
 
-describe("Swap Uniswap", ()=> {
+// describe("Swap SwapToStable", ()=> {
 
-    const addressDAI ="0x6B175474E89094C44Da98b954EedeAC495271d0F"
-    const addressWETH ="0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+//     const addressDAI ="0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F"; // Mainnet 0x6B175474E89094C44Da98b954EedeAC495271d0F; 
+//     const addressWMATIC ="0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889"; // Mainnet 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2; // 
 
 
-    it('describeTest', async function () {
+//     // it('probando funcion pay', async function () {
 
-            //Instanciando Contrato uniswap
-            const UniswapFactory = await ethers.getContractFactory('uniswap');
-            const uniswap = await UniswapFactory.attach(dataContract.addressContract.Ganache);
-            console.log('Address del contrato =>>',uniswap.address )
+//     //         //Instanciando Contrato SwapToStable
+//     //         const SwapToStableFactory = await ethers.getContractFactory('SwapToStable');
+//     //         const SwapToStable = await SwapToStableFactory.attach(dataContract.addressContract.Ganache);
+//     //         console.log('Address del contrato =>>',SwapToStable.address )
      
-            //Instanciando Token WETH
-            const FWETH = await ethers.getContractFactory("TokenWETH")
-            const cWETH= FWETH.attach(addressWETH)
+//     //         //Instanciando Token WMATIC
+//     //         const FWMATIC = await ethers.getContractFactory("TokenWMATIC")
+//     //         const cWMATIC= FWMATIC.attach(addressWMATIC)
 
-            //Instanciando Token DAI
-            const FDAI = await ethers.getContractFactory("TokenDai")
-            const cDAI = FDAI.attach(addressDAI)
+//     //         //Instanciando Token DAI
+//     //         const FDAI = await ethers.getContractFactory("TokenDai")
+//     //         const cDAI = FDAI.attach(addressDAI)
 
 
-            console.log("Owner del contrato =>", await uniswap.owner());
-            console.log("________________")
+//     //         console.log("Owner del contrato =>", await SwapToStable.owner());
+//     //         console.log("________________")
 
-            //Funciones para revisar balances de ETH / WETH / Saldo por Allowance / DAI
-            const balanceETH = async (address:string)=> ethers.utils.formatEther(await ethers.provider.getBalance(address))
-            const BalanceDAIbefore =async(address:string)=> ethers.utils.formatEther(await cDAI.balanceOf(address))
-
-            
-
-            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI  |  del OWNER 
-            console.log("Owner balanceETH BEFORE=>", await balanceETH(dataContract.owner) );
-            console.log("Owner BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.owner));    
-            
-            console.log("________________")
-            
-            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI  |  del CONTRATO 
-            console.log("Contrato balanceETH BEFORE=>", await balanceETH(dataContract.addressContract.Ganache));
-            console.log("Contrato BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
-
-            console.log("========================================")
-
-            //reazizando Swap de WETH a DAI
-            const ReceiptSwap = await uniswap.pay({value:ethers.utils.parseEther("1")})
-            await ReceiptSwap.wait()
+//     //         //Funciones para revisar balances de MATIC / WMATIC / Saldo por Allowance / DAI
+//     //         const balanceMATIC = async (address:string)=> ethers.utils.formatEther(await ethers.provider.getBalance(address))
+//     //         const BalanceDAIbefore =async(address:string)=> ethers.utils.formatEther(await cDAI.balanceOf(address))
 
             
-            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI   |  del OWNER 
-            console.log("Owner balanceETH  AFTER=>", await balanceETH(dataContract.owner) );
-            console.log("Owner BalanceDAI AFTER =>", await BalanceDAIbefore(dataContract.owner));  
+
+//     //         //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del OWNER 
+//     //         console.log("Owner balanceMATIC BEFORE=>", await balanceMATIC(dataContract.owner) );
+//     //         console.log("Owner BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.owner));    
             
-            console.log("________________")
+//     //         console.log("________________")
+            
+//     //         //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del CONTRATO 
+//     //         console.log("Contrato balanceMATIC BEFORE=>", await balanceMATIC(dataContract.addressContract.Ganache));
+//     //         console.log("Contrato BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
 
-            //Revisando: Balance ETH / WETH / Saldo por Allowance / DAI  |  del CONTRATO 
-            console.log("Contrato balanceETH AFTER =>", await balanceETH(dataContract.addressContract.Ganache));
-            console.log("Contrato BalanceDAI AFTER  =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
+//     //         console.log("========================================")
 
+//     //         //Usando funcion PAY para realizar pagos y convertir de WMATIC a DAI
+//     //         const ReceiptSwap = await SwapToStable.pay({value:ethers.utils.parseEther("0.0006"),
+//     //                                                 gasLimit: ethers.utils.hexlify(100000)})
+//     //         await ReceiptSwap.wait()
 
+            
+//     //         //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI   |  del OWNER 
+//     //         console.log("Owner balanceMATIC  AFTER=>", await balanceMATIC(dataContract.owner) );
+//     //         console.log("Owner BalanceDAI AFTER =>", await BalanceDAIbefore(dataContract.owner));  
+            
+//     //         console.log("________________")
 
+//     //         //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del CONTRATO 
+//     //         console.log("Contrato balanceMATIC AFTER =>", await balanceMATIC(dataContract.addressContract.Ganache));
+//     //         console.log("Contrato BalanceDAI AFTER  =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
 
-    });
-
-    // it("Desposit", async ()=>{
-    //      //Instanciando Contrato uniswap
-    //      const UniswapFactory = await ethers.getContractFactory('uniswap');
-    //      const uniswap = await UniswapFactory.attach(dataContract.addressContract.Ganache);
-    //      console.log('Address del contrato =>>',uniswap.address )
-  
-    //      //Instanciando Token WETH
-    //      const FWETH = await ethers.getContractFactory("TokenWETH")
-    //      const cWETH= FWETH.attach(addressWETH)
-
-    //      //Instanciando Token DAI
-    //      const FDAI = await ethers.getContractFactory("TokenDai")
-    //      const cDAI = FDAI.attach(addressDAI)
-
-    //      console.log(1);
-         
-    //      const balancePool = async() => ethers.utils.formatEther(await uniswap.pool())
-    //      console.log(2);
-    //     console.log("balance Pool Before => ", await balancePool());
-    //     console.log(3);
-    //     const receiptRecibir = await uniswap.recibir({value: ethers.utils.parseEther("1")})
-    //     console.log(4);
-    //     await receiptRecibir.wait()
-    //     console.log(5);
-    //     console.log("balance Pool After => ",await balancePool());
+//     // });})
 
 
-    // })
+//     it("Probando funcion receive", async ()=>{
+            
+//             //Obteniendo el Signer
+//             const signers = await ethers.getSigners()
+                 
+//             //Instanciando Contrato SwapToStable
+//             const SwapToStableFactory = await ethers.getContractFactory('SwapToStable');
+//             const SwapToStable = await SwapToStableFactory.attach(dataContract.addressContract.Ganache);
+//             console.log('Address del contrato =>>',SwapToStable.address )
+     
+//             //Instanciando Token WMATIC
+//             const FWMATIC = await ethers.getContractFactory("TokenWMATIC")
+//             const cWMATIC= FWMATIC.attach(addressWMATIC)
 
-  })
+//             //Instanciando Token DAI
+//             const FDAI = await ethers.getContractFactory("TokenDai")
+//             const cDAI = FDAI.attach(addressDAI)
+
+
+//             console.log("Owner del contrato =>", await SwapToStable.owner());
+//             console.log("________________")
+
+//             console.log("Contrato DAI === >",await SwapToStable.WDAI() );
+//             console.log("Scrip DAI === >",addressDAI);
+//             console.log("Contrato MATIC  === >",await SwapToStable.WMATIC());           
+//             console.log("Scrip MATIC  === >",addressWMATIC);
+
+
+
+//             //Funciones para revisar balances de MATIC / WMATIC / Saldo por Allowance / DAI
+//             const balanceMATIC = async (address:string)=> ethers.utils.formatEther(await ethers.provider.getBalance(address))
+//             const BalanceDAIbefore =async(address:string)=> ethers.utils.formatEther(await cDAI.balanceOf(address))
+
+            
+//             console.log("________________")
+//             //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del OWNER 
+//             console.log("Owner balanceMATIC BEFORE=>", await balanceMATIC(dataContract.owner) );
+//             console.log("Owner BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.owner));    
+            
+//             console.log("________________")
+            
+//             //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del CONTRATO 
+//             console.log("Contrato balanceMATIC BEFORE=>", await balanceMATIC(dataContract.addressContract.Ganache));
+//             console.log("Contrato BalanceDAI BEFORE =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
+
+//             console.log("========================================")
+
+//              //Usando funcion RECEIVE para realizar pagos y convertir de WMATIC a DAI
+            
+//             const ReceiptSwap1 = await signers[0].sendTransaction({
+//                                                                     to: dataContract.addressContract.Ganache,
+//                                                                     value: ethers.utils.parseEther("0.0006"),
+//                                                                     //gasLimit: ethers.utils.hexlify(100000)
+//                                                                     })
+//             await ReceiptSwap1.wait()
+
+            
+//             //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI   |  del OWNER 
+//             console.log("Owner balanceMATIC AFTER=>", await balanceMATIC(dataContract.owner) );
+//             console.log("Owner BalanceDAI AFTER =>", await BalanceDAIbefore(dataContract.owner));  
+            
+//             console.log("________________..")
+
+//             //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del CONTRATO 
+//             console.log("Contrato balanceMATIC AFTER =>", await balanceMATIC(dataContract.addressContract.Ganache));
+//             console.log("Contrato BalanceDAI AFTER  =>", await BalanceDAIbefore(dataContract.addressContract.Ganache));   
+
+
+
+//   })})

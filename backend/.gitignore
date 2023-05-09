@@ -8,9 +8,9 @@ typechain-types
 # Hardhat files
 cache
 artifacts
-eliminar.js
-eliminame.js
-eliminame1.js
-eliminame2.js
-eliminame3.js
+eliminar.*
+eliminame.*
+eliminame1.*
+eliminame2.*
+eliminame3.*
 

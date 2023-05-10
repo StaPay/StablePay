@@ -133,7 +133,7 @@ const config: HardhatUserConfig = {
 
     Mumbai: {
 
-      url: process.env.API_INFURA_MUMBAI,
+      url: process.env.API_ALCHEMY_MUMBAI,
 
       accounts: {
         mnemonic: process.env.SEED,

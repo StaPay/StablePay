@@ -10,7 +10,7 @@ async function deploy () {
     console.log(1);
     
     const SwapToStableFactory = await ethers.getContractFactory('SwapToStable');
-    const SwapToStable = await SwapToStableFactory.deploy("Titulo Prueba", signers[0].address, MATIC_to_Wei(0.001), MATIC_to_Wei(50));
+    const SwapToStable = await SwapToStableFactory.deploy("Titulo Prueba", signers[0].address, MATIC_to_Wei(0.001));
     console.log(2);
     
     await SwapToStable.deployed()

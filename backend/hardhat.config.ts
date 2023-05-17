@@ -20,7 +20,7 @@ task("deploy", "Deploys the Swap contract and runs tests")
   .setAction(async (taskArgs, hre) => {
     // Ejecuta el script deploySwap.ts
     await hre.run("run", {
-      script: "scripts/deploySwapToStable.ts"
+      script: "scripts/dySwapToStable.ts"
     });
 
     // Ejecuta los tests
@@ -37,7 +37,10 @@ const config: HardhatUserConfig = {
       { version: "0.8.17" },
       { version: "0.8.10" },
       { version: "0.8.7" },
+      { version: "0.8.0" },
+      { version: "0.7.6" },
       { version: "0.4.18" },
+
     ],
   },
 

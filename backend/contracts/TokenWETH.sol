@@ -1,9 +1,9 @@
 
 pragma solidity ^0.4.18;
 
-contract TokenWMATIC {
-    string public name     = "Wrapped Matic";
-    string public symbol   = "WMATIC";
+contract TokenWETH {
+    string public name     = "Wrapped Ether";
+    string public symbol   = "WETH";
     uint8  public decimals = 18;
 
     event  Approval(address indexed src, address indexed guy, uint wad);

@@ -1,9 +1,9 @@
 export const dataContract = { 
        addressContract: {
-       Ganache:"0xc12aCAf2B530B39A311427c69F00dEd1da41E149"
+       Ganache:"0xd051800816355d35B52d35111eBd6c342Af34D98"
        },
        HashContract: {
-        Ganache:"0x20c8f1d4082f8d9b2f49868e5ed27a3a35cfeeffbd76b609e7b984b16fa88ba8"
+        Ganache:"0xac653e859430bfda9d36b346243e3d7fe3eae661de5e4e5a8dcf616459cf0b4f"
        },
        owner:'0x7cD315d4E6086B99b81533152cd577e8802779B7',
     

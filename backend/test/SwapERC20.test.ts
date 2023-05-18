@@ -10,7 +10,8 @@ describe("Swap SwapToStable", ()=> {
 
     const addressDAI = "0xF2907853C5eD1a4964f7522646869D40AC154Bb2" // "0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F"; // Mainnet 0x6B175474E89094C44Da98b954EedeAC495271d0F; 
     const addressERC20  ="0xFD2AB41e083c75085807c4A65C0A14FDD93d55A9"; // Mainnet 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2; // 
-
+    const ethTOwei =(value:number)=>ethers.utils.parseEther(value.toString())
+    const weiTOeth =(value:number)=>ethers.utils.formatEther(value.toString())    
     
 
     it("addToken : test funcion", async () => {
@@ -33,8 +34,7 @@ describe("Swap SwapToStable", ()=> {
     const signers = await ethers.getSigners()
     const signer = signers[0].getAddress()
          
-    const ethTOwei =(value:number)=>ethers.utils.parseEther(value.toString())
-    const weiTOeth =(value:number)=>ethers.utils.formatEther(value.toString())     
+ 
     
 
     const erc20AcceptBefore             = await SwapToStable.erc20Accept(addressERC20)
@@ -90,13 +90,6 @@ describe("Swap SwapToStable", ()=> {
     const cDAI = FDAI.attach(addressDAI)
 
 
-
-
-         
-    const ethTOwei =(value:number)=> ethers.utils.parseEther(value.toString())
-
-
-
     console.log("Owner del contrato =>", await SwapToStable.owner());
     console.log("Signer  =>", await signer);
     console.log("________________")
@@ -105,11 +98,25 @@ describe("Swap SwapToStable", ()=> {
     console.log("Scrip DAI === >",addressDAI);
 
 
+
+    //Funciones para revisar el allowance de WETH 
+    const receiptAllowance = async () => weiTOeth(await cWETH.allowance(signer,dataContract.addressContract.Ganache))
+
+    console.log("Allowance del contrato ANTES => ", await receiptAllowance());
+    const receipChangeAllowance = await cWETH.approve(dataContract.addressContract.Ganache,ethTOwei(0.0001))
+    await receipChangeAllowance.wait()
+    console.log("Allowance del contrato DESPUES => ", await receiptAllowance());
+
+
+
+
     //Funciones para revisar balances de WETH / DAI
     const balancewETH  = async(address:string)=> ethers.utils.formatEther(await cWETH.balanceOf(address))
     const BalanceDAI   = async(address:string)=> ethers.utils.formatEther(await cDAI.balanceOf(address))
 
     
+
+
     console.log("________________")
     //Revisando: Balance WETH / DAI  |  del OWNER 
     console.log("Owner BalanceETH BEFORE=>", await balancewETH(dataContract.owner) );
@@ -117,16 +124,24 @@ describe("Swap SwapToStable", ()=> {
     
     console.log("________________")
     
+
+    
+
     //Revisando: Balance  WETH / DAI  |  del CONTRATO 
     console.log("Contrato BalanceETH BEFORE=>", await balancewETH(dataContract.addressContract.Ganache));
     console.log("Contrato BalanceDAI BEFORE =>", await BalanceDAI(dataContract.addressContract.Ganache));   
 
     console.log("========================================")
 
+
+
+
     //Usando funcion PAYERC20 para recibir token ERC20 y convertirlos a DAI
     
-    const ReceiptSwap1 = await SwapToStable.payERC20(addressERC20, ethers.utils.parseEther("0.000000000000001"),{gasLimit: ethers.utils.hexlify(100000)})
+    const ReceiptSwap1 = await SwapToStable.payERC20(addressERC20, ethers.utils.parseEther("0.0000008"))
     await ReceiptSwap1.wait()
+
+
 
     
     //Revisando: Balance WETH / DAI  |  del OWNER 
@@ -135,14 +150,15 @@ describe("Swap SwapToStable", ()=> {
     
     console.log("________________")
 
+
+
+
     //Revisando: Balance MATIC / WMATIC / Saldo por Allowance / DAI  |  del CONTRATO 
     console.log("Contrato BalanceETH AFTER =>", await balancewETH(dataContract.addressContract.Ganache));
     console.log("Contrato BalanceDAI AFTER  =>", await BalanceDAI(dataContract.addressContract.Ganache));   
 
 
  })
-
-
 
 
 

@@ -70,7 +70,7 @@ describe("Swap SwapToStable", ()=> {
 
     //Obteniendo el Signer
     const signers = await ethers.getSigners()
-    const signer = await signers[1]
+    const signer = await signers[6]
     console.log("signer                  =>",signer.address);
 
     //Instanciando Contrato SwapToStable
@@ -78,7 +78,7 @@ describe("Swap SwapToStable", ()=> {
     const SwapToStable = await SwapToStableFactory.attach(dataContract.addressContract.Ganache).connect(signer);
       
 
-    //Instanciando Token WMATIC
+    //Instanciando Token WETH
     const FWETH = await ethers.getContractFactory("TokenWETH")
     const cWETH = FWETH.attach(addressERC20).connect(signer)
 
@@ -92,6 +92,11 @@ describe("Swap SwapToStable", ()=> {
 
     console.log("___________________________");
 
+
+    //Obteniendo token WETH, se deposita MATIC al contrato del token WETH y retona un valor equivalente en WETH
+    const receiptWETH = await cWETH.deposit({value: ethers.utils.parseEther("0.000008"),
+                                             gasLimit: ethers.utils.hexlify(100000)})
+    await receiptWETH.wait()
 
 
     //Funciones para revisar el allowance de WETH por el spender (contract)

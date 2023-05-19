@@ -59,7 +59,7 @@ contract SwapToStable {
         router = ISwapRouter(addressRouter);  
         cWMATIC = IWMATIC(WMATIC);
 
-        approveWMATIC(amountApprove);
+        _approveWMATIC(amountApprove);
     }
 
     //This event is fired when DAI is sent to the contract owner.
@@ -79,7 +79,7 @@ contract SwapToStable {
         stateERC20[aERC20]          =   State.RisingPoolMatic; 
         erc20Accept[aERC20]         =   true;
         
-        approveERC20(aERC20, amountApproveERC20[aERC20]);
+        _approveERC20(aERC20, amountApproveERC20[aERC20]);
     }
 
 
@@ -130,12 +130,12 @@ contract SwapToStable {
     }
 
     //approves the Uniswap router to spend a specified amount of WMATIC on behalf of the contract.
-    function approveWMATIC(uint _amountApprove)  public {
+    function _approveWMATIC(uint _amountApprove)  internal {
         TransferHelper.safeApprove(WMATIC, address(router), _amountApprove);
     }
 
     //approves the Uniswap router to spend a specified amount of a specific ERC20 token on behalf of the contract.
-    function approveERC20(address aERC20, uint _amountApprove)  public {
+    function _approveERC20(address aERC20, uint _amountApprove)  internal {
         TransferHelper.safeApprove(aERC20, address(router), _amountApprove);
     }
     

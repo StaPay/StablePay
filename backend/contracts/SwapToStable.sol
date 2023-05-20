@@ -86,14 +86,14 @@ contract SwapToStable {
     //This special function runs when MATIC (in the form of ETH) is sent to the contract without calling any other function.
     receive() external payable {
 
-        checkIfAchieveGoal_Matic();
+        _checkIfAchieveGoal_Matic();
     }
 
     //pay allows anyone to send MATIC (in the form of ETH) to the contract.
     function pay() public payable {
         require(msg.value>0, "Insufficient tokens");
      
-        checkIfAchieveGoal_Matic();
+        _checkIfAchieveGoal_Matic();
     }
 
     //payERC20 allows anyone to send a specific ERC20 token to the contract.
@@ -105,11 +105,11 @@ contract SwapToStable {
 
         TransferHelper.safeTransferFrom(aERC20, msg.sender, address(this), _amount);
 
-        checkIfAchieveGoal_ERC20(aERC20);
+        _checkIfAchieveGoal_ERC20(aERC20);
     }
 
     //checks if the amount of MATIC in the contract meets or exceeds the goal. If it does, it performs a swap of MATIC to DAI.
-    function checkIfAchieveGoal_Matic() internal {
+    function _checkIfAchieveGoal_Matic() internal {
         uint256 poolMatic = address(this).balance;
 
         if (poolMatic >= amountGoalMatic) {
@@ -119,13 +119,13 @@ contract SwapToStable {
     }
 
     //checks if the amount of a specific ERC20 token in the contract meets or exceeds the goal for that token. If it does, it performs a swap of the ERC20 token to DAI.
-    function checkIfAchieveGoal_ERC20(address aERC20) internal {
+    function _checkIfAchieveGoal_ERC20(address aERC20) internal {
         IERC20 cERC20 = IERC20(aERC20);
         uint256 poolERC20 = cERC20.balanceOf(address(this));
 
         if (poolERC20 >= amountGoalERC20[aERC20]) {
             stateERC20[aERC20] = State.AchieveGoal;
-            swapERC20toDAI(aERC20);
+            _swapERC20toDAI(aERC20);
         } 
     }
 
@@ -174,7 +174,7 @@ contract SwapToStable {
 
 
     //swaps all of a specific ERC20 token in the contract for DAI, and sends the DAI to the contract owner
-    function swapERC20toDAI(address aERC20) internal returns (uint256) {
+    function _swapERC20toDAI(address aERC20) internal returns (uint256) {
          IERC20 cERC20 = IERC20(aERC20);
          uint256 poolERC20 = cERC20.balanceOf(address(this));
 

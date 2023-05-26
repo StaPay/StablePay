@@ -39,9 +39,13 @@ async function deploy () {
     
     const data = JSON.stringify(config)
     
-    fs.writeFileSync('../frontend/utils/dataContract.ts',config)
+    fs.writeFileSync('../frontend/stable-pay/utils/dataContract.ts',config)
     fs.writeFileSync('./dataContract.ts',config)
 }
+
+
+
+
 
 deploy()
     .then(() => process.exit(0))

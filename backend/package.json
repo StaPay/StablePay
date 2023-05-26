@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "scripts/deploySwap.ts"
+    "deploy SwapToStable": "hh run scripts/dySwapToStable.ts",
+    "verify SwapToStable": "hh verify --network Mumbai --contract contracts/SwapToStable.sol:SwapToStable"
   },
   "keywords": [],
   "author": "",

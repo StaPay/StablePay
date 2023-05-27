@@ -1,50 +1,59 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
+import '../public/css/tailwind.css';
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { configureChains, createClient, useAccount, WagmiConfig } from "wagmi";
+import { configureChains, createConfig, useAccount, WagmiConfig } from "wagmi";
 import {
 	mainnet,
-	polygon,
-	optimism,
-	arbitrum,
+	sepolia,
 	goerli,
+	polygon,
 	polygonMumbai,
-	optimismGoerli,
-	arbitrumGoerli,
-	polygonZkEvm,
-	polygonZkEvmTestnet,
+	arbitrum,	
 } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import MainLayout from "../layout/mainLayout";
 import { useRouter } from "next/router";
+import {connectorsForWallets} from "@rainbow-me/rainbowkit"
+import {walletConnectWallet, metaMaskWallet, coinbaseWallet, injectedWallet, rainbowWallet} from "@rainbow-me/rainbowkit/wallets"
 
-const { chains, provider } = configureChains(
-	[
-		mainnet,
-		goerli,
-		polygon,
-		polygonMumbai,
-		optimism,
-		optimismGoerli,
-		arbitrum,
-    arbitrumGoerli,
-    polygonZkEvm,
-    polygonZkEvmTestnet
-	],
-	[alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]
-);
+const api =process.env.ALCHEMY_API_KEY
+const projectId =process.env.WALLETCONNECT_PROJECT_ID
 
-const { connectors } = getDefaultWallets({
-	appName: "My Alchemy DApp",
-	chains,
-});
+const { chains, publicClient } = configureChains(
+											[ mainnet, sepolia, goerli, polygon, polygonMumbai, arbitrum ],
+											[alchemyProvider({ apiKey: api }), publicProvider()]
+										);
 
-const wagmiClient = createClient({
+
+
+
+
+const connectors = connectorsForWallets([
+				{
+					groupName: 'Recommended',
+					wallets: [
+						walletConnectWallet({ projectId, chains }), 
+						metaMaskWallet({ projectId, chains }),
+						injectedWallet({ chains }),
+					],
+				},
+				{
+					groupName: 'Others',
+					wallets: [
+						coinbaseWallet({ chains, appName: 'My RainbowKit App' }),
+						rainbowWallet({ projectId, chains }),
+					],
+				},
+])
+
+
+const config = createConfig({
 	autoConnect: true,
 	connectors,
-	provider,
+	publicClient,
 });
 
 export { WagmiConfig, RainbowKitProvider };
@@ -57,10 +66,10 @@ function MyApp({ Component, pageProps }) {
 		},
 	});
 	return (
-		<WagmiConfig client={wagmiClient}>
+		<WagmiConfig config={config}>
 			<RainbowKitProvider
-				modalSize="compact"
-				initialChain={process.env.NEXT_PUBLIC_DEFAULT_CHAIN}
+				//modalSize="compact"
+				//initialChain={process.env.NEXT_PUBLIC_DEFAULT_CHAIN}
 				chains={chains}
 			>
 				<MainLayout>

@@ -1,5 +1,5 @@
 .container{
-	color: white;
+	color: rgb(0, 0, 0);
 	display: flex;
 	flex-direction: column;
 	height: 80vh;
@@ -47,6 +47,7 @@ border-radius: 8px;
 
 
 .buttons_container{
+	color:white;
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;

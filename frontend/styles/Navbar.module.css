@@ -2,6 +2,7 @@
 
 .navbar {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
 	width: 100%;
@@ -13,5 +14,6 @@
 
 .alchemy_logo{
 	width: 6rem;
+	height: 6rem;
 	cursor: pointer;
 }

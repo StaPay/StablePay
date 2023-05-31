@@ -6,12 +6,18 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
+		"tail" : "npx tailwindcss -i ./src/css/tailwind.css -o ./public/css/tailwind.css --watch",
 		"lint": "next lint",
 		"marketplace": "npx create-web3-dapp marketplace"
 	},
 	"dependencies": {
+		"@chakra-ui/next-js": "^2.1.3",
+		"@chakra-ui/react": "^2.6.1",
+		"@emotion/react": "^11.11.0",
+		"@emotion/styled": "^11.11.0",
 		"@rainbow-me/rainbowkit": "^1.0.1",
 		"alchemy-sdk": "^2.6.2",
+		"framer-motion": "^10.12.16",
 		"next": "13.1.2",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",

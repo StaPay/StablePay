@@ -19,6 +19,9 @@ import { publicProvider } from "wagmi/providers/public";
 import {connectorsForWallets} from "@rainbow-me/rainbowkit"
 import {walletConnectWallet, metaMaskWallet, coinbaseWallet, injectedWallet, rainbowWallet} from "@rainbow-me/rainbowkit/wallets"
 import { useRouter } from "next/router";
+import {dataContractFactory} from "../utils/dataContractFactory"
+import { readContract } from '@wagmi/core'
+
 
 
 
@@ -27,7 +30,7 @@ const projectId =process.env.WALLETCONNECT_PROJECT_ID
 
 const { chains, publicClient } = configureChains(
 											[ mainnet, sepolia, goerli, polygon, polygonMumbai, arbitrum ],
-											[alchemyProvider({ apiKey: api }), publicProvider()]
+											[ publicProvider()]
 										);
 
 
@@ -62,13 +65,18 @@ const config = createConfig({
 
 
 
+
+
+
 function MyApp({ Component, pageProps }) {
 
 	const router = useRouter();
 	const account = useAccount({
 		onConnect({ address, connector, isReconnected }) {
 			// if (!isReconnected) router.reload();
-			ifNewUser()
+			ifNewUser(address)
+
+	   
 		},
 		onDisconnect: () => {
 			router.push("/")
@@ -77,13 +85,27 @@ function MyApp({ Component, pageProps }) {
 	});
 
 
-	  
 
-	const ifNewUser =()=> {
-		if(1>0){
-			router.push("/crea")
-		}else{
+
+
+	const ifNewUser =async(address)=> {
+		
+		const data = await readContract({
+		 address: dataContractFactory.addressContract.mumbai,
+		 abi: dataContractFactory.abi,
+		 functionName: "getContractsOfUsers",
+		 args: [address]
+		})
+   
+		console.log("data ==>",data);
+
+		if(data.length>0){
 			router.push("/dashboard")
+			console.log("data.length CERO==>",data.length);			
+		}else{
+			router.push("/crea")
+			console.log("data.length MAS ==>",data.length);
+
 		}
 	}
 	

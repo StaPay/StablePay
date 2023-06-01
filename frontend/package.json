@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"tail" : "npx tailwindcss -i ./src/css/tailwind.css -o ./public/css/tailwind.css --watch",
+		"tail": "npx tailwindcss -i ./src/css/tailwind.css -o ./public/css/tailwind.css --watch",
 		"lint": "next lint",
 		"marketplace": "npx create-web3-dapp marketplace"
 	},
@@ -21,8 +21,8 @@
 		"next": "13.1.2",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"viem": "^0.3.37",
-		"wagmi": "^1.0.8"
+		"viem": "^0.3.40",
+		"wagmi": "^1.0.9"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.14",

@@ -68,7 +68,7 @@ export default function crea() {
 
   useEffect(() => {
     if(isSuccess && !error){
-      router.push("/dashboard")
+      router.push("/welcome")
     }
   
    

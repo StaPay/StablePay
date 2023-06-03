@@ -29,7 +29,7 @@ const api =process.env.ALCHEMY_API_KEY
 const projectId =process.env.WALLETCONNECT_PROJECT_ID
 
 const { chains, publicClient } = configureChains(
-											[ polygon, polygonMumbai], //mainnet, sepolia, goerli, polygon,  arbitrum 
+											[ polygonMumbai,polygon], //mainnet, sepolia, goerli, polygon,  arbitrum 
 											[ publicProvider()]
 										);
 
@@ -118,9 +118,9 @@ function MyApp({ Component, pageProps }) {
 				//initialChain={process.env.NEXT_PUBLIC_DEFAULT_CHAIN}
 				chains={chains}
 			>
-				<MainLayout>
-					<Component {...pageProps} />
-				</MainLayout>
+				<MainLayout/>
+				<Component {...pageProps} />
+				
 			
 			</RainbowKitProvider>
 			<Footer></Footer>

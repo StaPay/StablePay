@@ -4,15 +4,14 @@ import styles from "../styles/InstructionsComponent.module.css";
 export default function Footer() {
   return (
     
-    <footer className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
+    <footer className=" m-4">
     <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
-        <div className="sm:flex sm:items-center sm:justify-between h-2 mt-56">
+        <div className="sm:flex sm:items-center sm:justify-between h-2 mt-32">
 
-        <div className={`${styles.header_container} `}>
-                <h1>
-					<span className="font-extrabold">stapay</span>
-         		</h1>
-        </div>    
+        <a href="/" className="flex items-center">
+                    <img src="https://media.discordapp.net/attachments/997271802420142110/1112061292488966154/Cevidevs_logo_letter_S_illustration_abstract_blue_transparent_b_91e8eff2-d84f-4fad-9b15-51ea007fafcf.png?width=404&height=604" className="h-8 mr-0.5" alt="Stapay Logo" />
+                    <span className="bg-gradient-to-r from-blue-400 to-purple-600 text-transparent bg-clip-text font-extrabold text-3xl self-center whitespace-nowrap ">tapay</span>
+                </a>   
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
                 <li>
                     <a href="#" className="mr-4 hover:underline md:mr-6 ">About</a>

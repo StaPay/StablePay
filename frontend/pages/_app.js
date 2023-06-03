@@ -29,7 +29,7 @@ const api =process.env.ALCHEMY_API_KEY
 const projectId =process.env.WALLETCONNECT_PROJECT_ID
 
 const { chains, publicClient } = configureChains(
-											[ mainnet, sepolia, goerli, polygon, polygonMumbai, arbitrum ],
+											[ polygon, polygonMumbai], //mainnet, sepolia, goerli, polygon,  arbitrum 
 											[ publicProvider()]
 										);
 
@@ -88,13 +88,13 @@ function MyApp({ Component, pageProps }) {
 
 
 
-	const ifNewUser =async(address)=> {
+	const ifNewUser =async(_address)=> {
 		
 		const data = await readContract({
 		 address: dataContractFactory.addressContract.mumbai,
 		 abi: dataContractFactory.abi,
 		 functionName: "getContractsOfUsers",
-		 args: [address]
+		 args: [_address]
 		})
    
 		console.log("data ==>",data);

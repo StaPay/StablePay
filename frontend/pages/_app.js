@@ -21,7 +21,7 @@ import {walletConnectWallet, metaMaskWallet, coinbaseWallet, injectedWallet, rai
 import { useRouter } from "next/router";
 import {dataContractFactory} from "../utils/dataContractFactory"
 import { readContract } from '@wagmi/core'
-
+import { ContractProvider } from "../context/ContractContext";
 
 
 
@@ -100,10 +100,10 @@ function MyApp({ Component, pageProps }) {
 		console.log("data ==>",data);
 
 		if(data.length>0){
-			router.push("/dashboard")
+			//router.push("/dashboard")
 			console.log("data.length CERO==>",data.length);			
 		}else{
-			router.push("/crea")
+			//router.push("/crea")
 			console.log("data.length MAS ==>",data.length);
 
 		}
@@ -118,10 +118,11 @@ function MyApp({ Component, pageProps }) {
 				//initialChain={process.env.NEXT_PUBLIC_DEFAULT_CHAIN}
 				chains={chains}
 			>
-				<MainLayout/>
-				<Component {...pageProps} />
-				
-			
+				<ContractProvider>
+					<MainLayout/>
+					<Component {...pageProps} />
+				</ContractProvider>
+											
 			</RainbowKitProvider>
 			<Footer></Footer>
 		</WagmiConfig>

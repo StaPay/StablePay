@@ -1,12 +1,16 @@
-import React from "react";
-import { simulateContract, writeContract } from "@wagmi/core";
+import React, { useContext } from "react";
 import { dataContractFactory } from "../utils/dataContractFactory";
 import { useAccount } from "wagmi";
 import { useState, useEffect } from "react";
-import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { useContractWrite, usePrepareContractWrite,  } from "wagmi";
 import { useToast } from "@chakra-ui/react";
-import { parseEther } from 'viem'
+import { parseEther} from 'viem'
 import { useRouter } from "next/router";
+import { usePublicClient } from 'wagmi'
+import { contractContext } from "../context/ContractContext";
+
+
+
 
 export default function crea() {
   const [nombreEmpresa, setNombreEmpresa] = useState("");
@@ -14,6 +18,8 @@ export default function crea() {
   const { address } = useAccount();
   const router = useRouter()
   const toast = useToast();
+  const publicClient = usePublicClient()
+  const {addresscontract, setAddresscontract} =useContext(contractContext)
 
   const { config } = usePrepareContractWrite({
     address: dataContractFactory.addressContract.mumbai,
@@ -66,14 +72,40 @@ export default function crea() {
     }
   }, [error]);
 
+
+
   useEffect(() => {
-    if(isSuccess && !error){
-      router.push("/welcome")
-    }
+    
+      if((isSuccess && !error)&& data){
+
+          async function getContract(_hash) {
+    
+            const transaction = await publicClient.waitForTransactionReceipt({ 
+              hash:  _hash
+            })
+            
+            const addrescontractBytes = transaction.logs[1].topics[2]
+
+            console.log("addrescontractBytes.replace(0x000000000000000000000000, 0x====>", addrescontractBytes.replace("0x000000000000000000000000", "0x"))
+            await setAddresscontract(addrescontractBytes.replace("0x000000000000000000000000", "0x"));
+
+          }
+
+          getContract(data.hash)
+                 
+     }
   
-   
   }, [isSuccess])
   
+
+  useEffect(() => {
+    console.log("addrescontract ha cambiado a PUSHHHHH ====>", addresscontract);
+    if (addresscontract) {
+      router.push("/welcome")
+    }
+  }, [addresscontract]);
+
+
 
   return (
     <div>
@@ -143,7 +175,7 @@ export default function crea() {
         <button
           type="submit"
           disabled={!nombreEmpresa || !goalMatic}
-          className={`text-white font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center focus:ring-4 focus:outline-none focus:ring-blue-300
+          className={`text-white font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80
                           ${
                             !nombreEmpresa || !goalMatic
                               ? 'bg-blue-400 cursor-not-allowed'

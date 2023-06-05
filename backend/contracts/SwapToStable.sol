@@ -42,6 +42,7 @@ contract SwapToStable {
     mapping (address => uint) public amountApproveERC20;
     mapping (address => State) public stateERC20;
     mapping (address => bool) public  erc20Accept;
+    address[] public listTokensAcepted;
     
     // Uniswap's fee tier
     uint24 public constant feeTier= 3000;
@@ -77,7 +78,13 @@ contract SwapToStable {
         amountGoalERC20[aERC20]     =   _amountGoalERC20;
         amountApproveERC20[aERC20]  =   2000*(10**18);
         stateERC20[aERC20]          =   State.RisingPoolMatic; 
-        erc20Accept[aERC20]         =   true;
+
+        if(erc20Accept[aERC20] == false){
+            
+            erc20Accept[aERC20] =   true;
+            listTokensAcepted.push(aERC20);
+        }
+        
         
         _approveERC20(aERC20, amountApproveERC20[aERC20]);
     }
@@ -239,6 +246,11 @@ contract SwapToStable {
 
         return(owner, amountGoalMatic, amountApprove, poolMatic, title, state, feeTier); 
    }
+
+
+    function getListTokensAcepted() public view returns (address[] memory) {
+        return listTokensAcepted;    
+       }
 
 
 }

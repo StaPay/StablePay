@@ -3,8 +3,6 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { dataContract } from "../dataContract";
 
-
-
 describe("Swap SwapToStable", ()=> {
 
     const addressDAI = "0xF2907853C5eD1a4964f7522646869D40AC154Bb2" // "0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F"; // Mainnet 0x6B175474E89094C44Da98b954EedeAC495271d0F;
@@ -23,19 +21,13 @@ describe("Swap SwapToStable", ()=> {
         this.SwapToStableSigner = await SwapToStableFactory.attach(dataContract.addressContract.Ganache).connect(this.signer);
         console.log('Address contract     =>', this.SwapToStable.address )
 
-
         //Instanciando Token DAI
         const FDAI = await ethers.getContractFactory("TokenDai")
         this.cDAI = FDAI.attach(addressDAI).connect(this.signer)
 
-
     })
 
-
-
-
     it('pay', async function () {
-
 
             console.log('Address contract     =>',this.SwapToStable.address )
             console.log("Owner                =>", await this.SwapToStable.owner());
@@ -45,8 +37,6 @@ describe("Swap SwapToStable", ()=> {
             //Funciones para revisar balances de MATIC  / DAI
             const balanceMATIC = async (address:string)=> ethers.utils.formatEther(await ethers.provider.getBalance(address))
             const BalanceDAIbefore =async(address:string)=> ethers.utils.formatEther(await this.cDAI.balanceOf(address))
-
-
 
             //Revisando: Balance MATIC / DAI  |  del SIGNER / OWNER
             console.log("Signer balance   MATIC BEFORE  =>", await balanceMATIC(this.signer.address) );
@@ -65,8 +55,6 @@ describe("Swap SwapToStable", ()=> {
                                                     })
             await ReceiptSwap.wait()
 
-
-
             //Revisando: Balance MATIC / DAI   |  del SIGNER / OWNER
             console.log("Signer balance   MATIC AFTER   =>", await balanceMATIC(this.signer.address) );
             console.log("Owner balance    DAI   AFTER   =>", await BalanceDAIbefore(dataContract.owner));
@@ -80,20 +68,15 @@ describe("Swap SwapToStable", ()=> {
 
 
     it("receive", async function () {
-
-           
-
+        
             console.log('Address contract     =>',  this.SwapToStable.address )
             console.log("Owner                 =>", await this.SwapToStable.owner());
             console.log("signer                =>", await this.signer.getAddress());
             console.log("________________")
 
-
             //Funciones para revisar balances de MATIC / DAI
             const balanceMATIC = async (address:string)=> ethers.utils.formatEther(await ethers.provider.getBalance(address))
             const BalanceDAIbefore =async(address:string)=> ethers.utils.formatEther(await this.cDAI.balanceOf(address))
-
-
             
             //Revisando: Balance MATIC  / DAI  |  del SIGNER / OWNER
             console.log("Signer balance MATIC BEFORE    =>", await balanceMATIC(this.signer.address) );
@@ -106,7 +89,6 @@ describe("Swap SwapToStable", ()=> {
 
             console.log("========================================")
 
-
             //Usando funcion RECEIVE para realizar pagos por el Signer y convertir MATIC a WMATIC y luego a DAI
             const ReceiptSwap1 = await this.signer.sendTransaction({
                                                                 to: dataContract.addressContract.Ganache,
@@ -114,7 +96,6 @@ describe("Swap SwapToStable", ()=> {
                                                                 //gasLimit: ethers.utils.hexlify(100000)
                                                                 })
             await ReceiptSwap1.wait()
-
 
             //Revisando: Balance MATIC  / DAI   |  del SIGNER / OWNER
             console.log("Signer balance MATIC AFTER     =>", await balanceMATIC(this.signer.address) );
@@ -125,10 +106,5 @@ describe("Swap SwapToStable", ()=> {
             //Revisando: Balance MATIC           |  del CONTRATO
             console.log("Contract  balance MATIC AFTER  =>", await balanceMATIC(dataContract.addressContract.Ganache));
   } )
-
-
-
-
-
 
 })

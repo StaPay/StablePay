@@ -1,10 +1,10 @@
 export const dataContractFactory = { 
          addressContract: {
-         mumbai:"0x97db4fE99af760322964Abe3174edA42Ad367e0b"
+         mumbai:"0xbb45af76c0161abE88eC4424346BF1302C94fF13"
       },
     
          hashContract: {
-         mumbai:"0x6f5e2264fd8b69e61778df2d0599f91d26b0e25e022020228d61a1109d14e4d3"
+         mumbai:"0x77ce443143b965dd0893c233e0585d68e509e78230e7a48731edeb6d7ce46e1a"
       },
     
          owner:'0x7cD315d4E6086B99b81533152cd577e8802779B7',

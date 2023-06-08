@@ -9,9 +9,6 @@ import { useRouter } from "next/router";
 import { usePublicClient } from 'wagmi'
 import { contractContext } from "../context/ContractContext";
 
-
-
-
 export default function crea() {
   const [nombreEmpresa, setNombreEmpresa] = useState("");
   const [goalMatic, setGoalMatic] = useState(0);
@@ -21,12 +18,16 @@ export default function crea() {
   const publicClient = usePublicClient()
   const {addresscontract, setAddresscontract} =useContext(contractContext)
 
+
+  
   const { config } = usePrepareContractWrite({
     address: dataContractFactory.addressContract.mumbai,
     abi: dataContractFactory.abi,
     functionName: "contructorContract",
     args: [nombreEmpresa, address, goalMatic],
   });
+
+
 
   const { data, isIdle, error, isSuccess, isLoading, writeAsync, write } = useContractWrite(config);
 
@@ -41,9 +42,9 @@ export default function crea() {
     if (data) {
       toast({
         title: "",
-        description: `Transacción en proceso \n  ${data.hash} \n espera a la confirmación de tu tx`,
+        description: `Transacción en proceso \n  ${data.hash} \n espera a la confirmación de tu tx, suele tardar 30 segundos`,
         status: "info",
-        duration: 2000,
+        duration: 15000,
         isClosable: true,
       });
       console.log("data ===>", data);

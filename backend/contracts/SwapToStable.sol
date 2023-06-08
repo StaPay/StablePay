@@ -42,7 +42,7 @@ contract SwapToStable {
     mapping (address => uint) public amountApproveERC20;
     mapping (address => State) public stateERC20;
     mapping (address => bool) public  erc20Accept;
-    address[] public listTokensAcepted;
+    address[] public listTokensAccepted;
     
     // Uniswap's fee tier
     uint24 public constant feeTier= 3000;
@@ -82,7 +82,7 @@ contract SwapToStable {
         if(erc20Accept[aERC20] == false){
             
             erc20Accept[aERC20] =   true;
-            listTokensAcepted.push(aERC20);
+            listTokensAccepted.push(aERC20);
         }
         
         
@@ -248,8 +248,8 @@ contract SwapToStable {
    }
 
 
-    function getListTokensAcepted() public view returns (address[] memory) {
-        return listTokensAcepted;    
+    function getListTokensAccepted() public view returns (address[] memory) {
+        return listTokensAccepted;    
        }
 
 

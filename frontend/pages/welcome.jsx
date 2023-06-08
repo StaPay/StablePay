@@ -18,7 +18,7 @@ export default function Welcome() {
                     Felicidades! ya puedes recibir Matic en la siguiente dirección:
                 </h5>
                 <div className="break-all">
-                    <a href={url}>
+                    <a href={url}  target="_blank">
                         <h5 className="text-xl font-bold text-center underline text-blue-500 dark:text-white">
                          {addresscontract}
                         </h5>

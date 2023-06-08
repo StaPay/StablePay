@@ -68,17 +68,18 @@ export default function Addtokens() {
   }
 
   return (
-    <div className="md:flex align-middle items-center lg:p-32 md:py-32">
+    <div className="md:flex lg:p-32 md:py-32">
       {/* Columna 1: Token Aceptados */}
       <div className="px-2.5 md:w-1/2 my-8 md:mb-16 text-center ">
         <h1 className="md:text-5xl text-3xl font-extrabold dark:text-white ">
           Tokens Aceptados
         </h1>
-        <small className="ml-2 md:text-5xl text-3xl font-semibold text-gray-500 dark:text-gray-400">
+        <small className="ml-2 md:text-5xl text-3xl font-semibold text-gray-500 dark:text-gray-400 mb-32">
           como medio de pago
         </small>
-
+        <div className="my-16">
         <TablaTokenAceptados></TablaTokenAceptados>
+        </div>
       </div>
 
       {/* Columna 2: Agregar nuevo token */}

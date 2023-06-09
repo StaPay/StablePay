@@ -1,0 +1,16 @@
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+eliminar.*
+eliminame.*
+eliminame1.*
+eliminame2.*
+eliminame3.*
+dyeliminame.ts

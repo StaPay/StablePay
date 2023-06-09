@@ -18,8 +18,8 @@ export default function NavbarMain() {
           to: "/howItWorks",
         },
         {
-            name: "Roadmap",
-            to: "/roadmap",
+            name: "Contact Us",
+            to: "/contactus",
           },
       ];
 

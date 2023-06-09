@@ -54,7 +54,12 @@ export default function TablaTokenAceptados() {
 
     let nameCripto
     let simbolCripto
-    let urlLogo=(nameCripto, simbolCripto) => "https://cryptologos.cc/logos/" + nameCripto + "-" + simbolCripto + "-logo.png?v=025"
+    let urlLogo=(nameCripto, simbolCripto) => {
+        nameCripto = nameCripto.split(" ");
+        nameCripto = nameCripto[0].toLowerCase();
+        simbolCripto = simbolCripto.toLowerCase();
+        return "https://cryptologos.cc/logos/" + nameCripto + "-" + simbolCripto + "-logo.png?v=025"
+    }
 
 
   return (

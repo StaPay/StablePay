@@ -24,7 +24,7 @@ export async function getListTokensAccepted() {
     functionName: "getContractsOfUsers",
     args: [address],
   });
-
+  console.log("ADDRESS: " + addressStapayList[0]);
   const tokenAcceptedList = await readContract({
     address: addressStapayList[0],
     abi: dataContract.abi,

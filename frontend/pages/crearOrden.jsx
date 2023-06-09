@@ -6,6 +6,7 @@ import { parseEther } from "viem";
 import { dataContract } from "../utils/dataContract";
 import { contractContext } from "../context/ContractContext";
 import qrcode from "qrcode";
+import Modal from 'react-modal';
 
 export default function CrearOrden() {
   const [amountDAI, setAmountDAI] = useState("");
@@ -39,10 +40,34 @@ export default function CrearOrden() {
       let url = await qrcode.toDataURL(uri);
       setQr(url);
       console.log(url);
+      Modal.setAppElement('#qrpay');
+      openModal();
     } catch (error) {
       console.log("Error generating QR: " + error);
     }
   }
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
 
   // const dataPay = usePrepareContractWrite({
   //   address: dataContract.addressContract.Ganache,
@@ -126,10 +151,22 @@ export default function CrearOrden() {
                               }
                               `}
             >
-              Paga con QR
+              Pagar
             </button>
           </div>
-
+        </div>
+        <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="QR"
+        >
+        <div>
+          <p>Transfiere {amountIne18} MATIC a la direccion: {recipientAddress}</p>
+          <div className="flex flex-row min-h-screen justify-center items-center">
+          <img src={qr}></img>
+          </div>
+          <div className="flex flex-row min-h-screen justify-center items-center">
           <div className="w-1/2 m-2">
             <button
               type="submit"
@@ -149,11 +186,10 @@ export default function CrearOrden() {
               Paga desde wallet
             </button>
           </div>
+          </div>
         </div>
-
-        <div>
-          <img src={qr}></img>
-        </div>
+        </Modal>
+        <div id="qrpay"></div>
       </form>
     </div>
   );

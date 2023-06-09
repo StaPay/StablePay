@@ -5,8 +5,7 @@ import React from 'react'
 
 export default function Dashboard() {
 
-  const router =useRouter()
-
+  const router =useRouter();
 
   return (
     <div>
@@ -35,7 +34,7 @@ export default function Dashboard() {
                  focus:ring-blue-700 focus:bg-blue-700 focus:text-white dark:border-white dark:text-white dark:hover:text-white
                  dark:hover:bg-blue-700 dark:focus:bg-blue-700 shadow-md shadow-blue-500/50 dark:shadow-md dark:shadow-blue-800/80" >
                 <svg aria-hidden="true" className="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path ffillrule="evenodd" d="M19,13 H13V19H11V13H5L12,6L19,13Z M3,20H21V22H3V20Z" clipRule="evenodd">
+                    <path fillRule="evenodd" d="M19,13 H13V19H11V13H5L12,6L19,13Z M3,20H21V22H3V20Z" clipRule="evenodd">
 
                     </path>
                 </svg>

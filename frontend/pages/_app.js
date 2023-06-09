@@ -91,7 +91,7 @@ function MyApp({ Component, pageProps }) {
 		try {
 			toast({
 				title: "",
-				description: `Espera unos segunodos xfavor`,
+				description: `Espera unos segundos xfavor`,
 				status: "info",
 				duration: 3000,
 				isClosable: true,
@@ -107,7 +107,7 @@ function MyApp({ Component, pageProps }) {
 
 
 			   if(data.length>0){
-				   router.push("/dashboard")
+				   router.push("/dashboard");
 				   console.log("data.length CERO==>",data.length);			
 			   }else{
 				   router.push("/crea")
